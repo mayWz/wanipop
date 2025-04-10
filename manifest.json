@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "WaniKani Popup",
+    "version": "1.0",
+    "description": "Play WaniKani in a Chrome extension popup.",
+    "permissions": [
+        "storage",
+        "scripting"
+    ],
+    "action": {
+    "default_popup": "wanipop.html",
+    "default_icon": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  }
+}
