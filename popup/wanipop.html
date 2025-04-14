@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>WaniPop</title>
-  <link rel="stylesheet" href="wanipop.css">
-</head>
-<body>
-  <div>
-    <label for="apiKey">WaniKani API Key:</label>
-    <input type="text" id="apiKey">
-    <button id="saveApiKey">Save</button>
-  </div>
-  <div id="reviewCount"></div>
-  <div id="waniKaniFrameContainer">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WaniPop</title>
+    <link rel="stylesheet" href="wanipop.css" />
+  </head>
+  <body>
+    <div class="logo">
+      <img src="../images/wanipop48.png" />
     </div>
-</body>
+    <div class="apiKeyBox">
+      <label for="apiKey">WaniKani API Key:</label>
+      <input type="text" id="apiKey" />
+      <button id="saveApiKey">Save</button>
+    </div>
+    <div id="reviewCount"></div>
+    <div id="waniKaniFrameContainer"></div>
+  </body>
 </html>
