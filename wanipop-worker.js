@@ -1,14 +1,13 @@
 const Wanipop = {
-
   /**
-   * Wanikani URL 
+   * Wanikani URL
    */
   API_URL: "https://api.wanikani.com/v2",
 
   /**
    * setWanipopApiKey
    * @param {String} apiKey wanikani API Key for call API
-   * @returns {boolean} 
+   * @returns {boolean}
    */
   async setWanipopApiKey(apiKey) {
     chrome.storage.local.set({ wanikaniApiKey: apiKey });
@@ -17,14 +16,14 @@ const Wanipop = {
 
   /**
    * getWanipopApiKey
-   * @returns {Object} Local storage 
+   * @returns {Object} Local storage
    */
   async getWanipopApiKey() {
     return chrome.storage.local.get(["wanikaniApiKey"]);
   },
 
   /**
-   * 
+   *
    * @param {String} endpoint url path for calling wanikani api
    * @returns {Object, boolean}
    */
@@ -37,14 +36,13 @@ const Wanipop = {
       );
       return false;
     }
-  
+
     const response = await fetch(`${this.API_URL}${endpoint}`, {
       headers: {
         Authorization: `Bearer ${apiKey.wanikaniApiKey}`,
       },
     });
-  
-    console.log(response);
+
     if (!response.ok) {
       const errorData = await response.json();
       console.error(
@@ -52,19 +50,18 @@ const Wanipop = {
       );
       return false;
     }
-  
+
     return response.json();
   },
 
   /**
-   * 
-   * @returns {Object} 
+   *
+   * @returns {Object}
    */
   async getWanipopUserProfile() {
     console.log("getWanipopUserProfile was call!");
     try {
       const data = await this.fetchWanikaniApi("/user");
-      console.log(data);
       return data.data;
     } catch (error) {
       return {};
@@ -72,8 +69,8 @@ const Wanipop = {
   },
 
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    */
   async getReviewCount() {
     try {
@@ -87,8 +84,8 @@ const Wanipop = {
   },
 
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    */
   async getNextReviews() {
     try {
@@ -103,24 +100,27 @@ const Wanipop = {
   },
 
   /**
-   * 
-   * @param {String} assignmentId 
-   * @param {String} answer 
-   * @returns 
+   *
+   * @param {String} assignmentId
+   * @param {String} answer
+   * @returns
    */
   async submitReview(assignmentId, answer) {
     try {
-      const data = await this.fetchWanikaniApi(`/assignments/${assignmentId}/review`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          review: {
-            answer: answer,
+      const data = await this.fetchWanikaniApi(
+        `/assignments/${assignmentId}/review`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        }),
-      });
+          body: JSON.stringify({
+            review: {
+              answer: answer,
+            },
+          }),
+        }
+      );
       return data;
     } catch (error) {
       console.error("Error submitting review:", error);
@@ -135,23 +135,51 @@ const Wanipop = {
   },
 };
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  const action = message.action;
-  const data = message.data;
+const wrapAsyncFunction = (listener) => (request, sender, sendResponse) => {
+  Promise.resolve(listener(request, sender)).then(sendResponse);
+  return true; 
+};
 
-  switch (action) {
-    case "setWanipopApiKey":
-      return Wanipop.setWanipopApiKey(data.apiKey);
-    case "getWaniPopUserProfile":
-      return Wanipop.getWanipopUserProfile();
-    case "getReviewCount":
-      return Wanipop.getReviewCount();
-    case "getNextReviews":
-      return Wanipop.getNextReviews();
-    case "submitReview":
-      return Wanipop.submitReview(data);
-    default:
-      console.error("Unexpected action:", action);
-      return false;
-  }
-});
+chrome.runtime.onMessage.addListener(
+  wrapAsyncFunction(async (request, sender) => {
+    const action = request.action;
+    const data = request.data;
+
+    switch (action) {
+      case "wanipop.setApiKey":
+        return Wanipop.setWanipopApiKey(data.apiKey);
+      case "wanipop.getUserProfile":
+        return await Wanipop.getWanipopUserProfile();
+      case "wanipop.getReviewCount":
+        return Wanipop.getReviewCount();
+      case "wanipop.getNextReviews":
+        return Wanipop.getNextReviews();
+      case "wanipop.submitReview":
+        return Wanipop.submitReview(data);
+      default:
+        console.error("Unexpected action:", action);
+        return false;
+    }
+    })
+);
+
+// chrome.runtime.onMessage.addListener((message) => {
+//   const action = message.action;
+//   const data = message.data;
+
+//   switch (action) {
+//     case "wanipop.setApiKey":
+//       return Wanipop.setWanipopApiKey(data.apiKey);
+//     case "wanipop.getUserProfile":
+//       return Wanipop.getWanipopUserProfile();
+//     case "wanipop.getReviewCount":
+//       return Wanipop.getReviewCount();
+//     case "wanipop.getNextReviews":
+//       return Wanipop.getNextReviews();
+//     case "wanipop.submitReview":
+//       return Wanipop.submitReview(data);
+//     default:
+//       console.error("Unexpected action:", action);
+//       return false;
+//   }
+// });

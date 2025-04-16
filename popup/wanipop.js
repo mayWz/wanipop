@@ -1,10 +1,12 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   
+  await isUserProfile();
   document.getElementById("saveApiKey").addEventListener("click", async () => {
     const apiKey = document.getElementById('apiKey').value;
-    const response = chrome.runtime.sendMessage({action: 'setWanipopApiKey', data: { apiKey }});
+    const response = chrome.runtime.sendMessage({action: 'wanipop.setApiKey', data: { apiKey }});
     if (response) {
       console.log("API key has set.");
+      await isUserProfile();
     } else {
       console.error("Failed to set API Key. Please try again");
     }
@@ -16,7 +18,7 @@ async function isUserProfile() {
   console.log("isUserProfile is call!");
   const apiBox = document.getElementById("apiKeyBox");
   const userProfileBox = document.getElementById("userProfile");
-  const response = await chrome.runtime.sendMessage({action: 'getWaniPopUserProfile'});
+  const response = await chrome.runtime.sendMessage({action: 'wanipop.getUserProfile'});
   if (response) {
     apiBox.style.display = 'none';
     userProfileBox.textContent = `${response.username} - ${response.level}`;
