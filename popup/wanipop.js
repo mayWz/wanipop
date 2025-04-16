@@ -17,10 +17,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function isUserProfile() {
   console.log("isUserProfile is call!");
   const apiBox = document.getElementById("apiKeyBox");
+  const reviewBox = document.getElementById("wanipopReview");
   const userProfileBox = document.getElementById("userProfile");
   const response = await chrome.runtime.sendMessage({action: 'wanipop.getUserProfile'});
+
   if (response) {
     apiBox.style.display = 'none';
+    reviewBox.style.display = 'block';
     userProfileBox.textContent = `${response.username} - ${response.level}`;
   } else {
     console.error("Failed to fetch user profile. Please try again");

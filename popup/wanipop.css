@@ -3,18 +3,31 @@ body {
   height: 100px; /* Adjust height as needed */
   margin: 0;
   font-family: sans-serif;
+  padding: 5px 10px;
 }
 
 .logo {
   text-align: center;
+}
+.logo img {
+  height: 32px;
 }
 
 #apiKeyBox {
   text-align: center;
 }
 
+#wanipopReview {
+  display: none;
+}
+
 #waniKaniFrameContainer {
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+#reviewCount {
+  background-color: aquamarine;
+  padding: 20px;
 }
