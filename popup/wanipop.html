@@ -10,14 +10,19 @@
     <div class="logo">
       <img src="../images/wanipop48.png" />
     </div>
-    <div class="apiKeyBox">
+
+    <div id="apiKeyBox">
       <label for="apiKey">WaniKani API Key:</label>
       <input type="text" id="apiKey" />
       <button id="saveApiKey">Save</button>
-      <button id="getReviewButton">Get Review</button>
+	  <div id="result"></div>
     </div>
-    <div id="result"></div>
-    <div id="reviewCount"></div>
-    <div id="waniKaniFrameContainer"></div>
+
+    <div id="wanipopReview">
+		<div id="userProfile"></div>
+		<button id="getReviewButton">Get Review</button>
+		<div id="reviewCount"></div>
+		<div id="waniKaniFrameContainer"></div>
+	</div>
   </body>
 </html>

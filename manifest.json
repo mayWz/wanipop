@@ -4,8 +4,7 @@
   "version": "1.0",
   "description": "Play WaniKani in a Chrome extension popup.",
   "permissions": [
-    "storage",
-    "scripting"
+    "storage"
   ],
   "action": {
     "default_title": "Wanikani Popup",
@@ -22,9 +21,10 @@
     "128": "images/wanipop.png"
   },
   "host_permissions": [
-    "*://*/*"
+    "*://*/*",
+    "https://api.wanikani.com/v2/*"
   ],
   "background": {
-    "service_worker": "service-worker.js"
+    "service_worker": "wanipop-worker.js"
   }
 }
