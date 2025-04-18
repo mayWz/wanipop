@@ -1,0 +1,49 @@
+body {
+  width: 250px; /* Adjust width as needed */
+  height: 100px; /* Adjust height as needed */
+  margin: 0;
+  font-family: sans-serif;
+  padding: 5px 10px;
+}
+
+.logo {
+  text-align: center;
+}
+.logo img {
+  height: 32px;
+}
+
+#apiKeyBox {
+  text-align: center;
+}
+
+#wanipopReview {
+  display: block;
+}
+
+#nav {
+  display: flex;
+}
+
+#userProfile {
+  flex: 1 auto;
+}
+
+#reviewCount {
+  flex: 2;
+}
+
+#showSetting {
+  text-align: left;
+}
+
+#waniKaniFrameContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}wanipopReview
+
+#reviewCount {
+  background-color: aquamarine;
+  padding: 20px;
+}
